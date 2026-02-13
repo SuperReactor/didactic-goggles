@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="icon" sizes="192x192" href="img/favicon.png" />
     <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon" />
@@ -23,7 +24,7 @@
     <base href="https://cdn.jsdelivr.net/gh/55gms/55gms@master/static/misc/idle-breakout/">
     <meta name="author" content="3kh0" />
 
-    <title>Idle breakout · sliders + lucide + auto‑fit</title>
+    <title>Idle breakout · real units + sliders + auto‑fit</title>
 
     <!-- Lucide icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -34,7 +35,8 @@
             box-sizing: border-box;
         }
 
-        html, body {
+        html,
+        body {
             margin: 0;
             padding: 0;
             width: 100%;
@@ -60,7 +62,7 @@
             gap: 16px;
         }
 
-        /* ----- control panel – now with sliders ----- */
+        /* ----- control panel – units, sliders, lucide ----- */
         .size-panel {
             background: #141a1e;
             padding: 1.2rem 2rem;
@@ -71,7 +73,7 @@
             justify-content: center;
             gap: 1.8rem 2.5rem;
             border: 1px solid #2e404a;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(6px);
             width: fit-content;
             max-width: 100%;
@@ -79,7 +81,7 @@
             flex-shrink: 0;
         }
 
-        /* dimension group: icon, label, input + slider stacked */
+        /* dimension group: icon, label, input + slider */
         .dim-group {
             display: flex;
             flex-direction: column;
@@ -117,29 +119,29 @@
             flex-wrap: wrap;
         }
 
-        /* number input */
+        /* number input – no fixed min/max, validation in JS */
         .dim-controls input[type=number] {
             background: #1f2a30;
             border: 1px solid #3a535e;
             color: #e9f2f5;
             font-size: 1rem;
             padding: 6px 10px;
-            width: 90px;
+            width: 100px;
             border-radius: 30px;
             text-align: center;
             font-weight: 600;
             transition: all 0.15s;
-            box-shadow: inset 0 2px 6px rgba(0,0,0,0.6);
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
         }
 
         .dim-controls input[type=number]:focus {
             border-color: #62c6f2;
             outline: none;
             background: #25363e;
-            box-shadow: 0 0 0 3px rgba(98,198,242,0.2), inset 0 2px 6px #000;
+            box-shadow: 0 0 0 3px rgba(98, 198, 242, 0.2), inset 0 2px 6px #000;
         }
 
-        /* ----- sleek range sliders – fully styled ----- */
+        /* range sliders – always represent pixels */
         .dim-controls input[type=range] {
             -webkit-appearance: none;
             appearance: none;
@@ -188,12 +190,47 @@
             box-shadow: inset 0 1px 6px #0e1519;
         }
 
-        /* hint and reset */
+        /* right block: unit selector, hint, reset */
         .hint-reset {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+        }
+
+        /* unit dropdown – sleek */
+        .unit-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #0e1519;
+            padding: 6px 16px;
+            border-radius: 40px;
+            border: 1px solid #30444c;
+            color: #b0d4e0;
+        }
+
+        .unit-selector i {
+            width: 16px;
+            height: 16px;
+            stroke: #b0e0ff;
+        }
+
+        .unit-selector select {
+            background: transparent;
+            border: none;
+            color: #e0f0f5;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 20px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .unit-selector select option {
+            background: #141e24;
+            color: #e0f0f5;
         }
 
         .dim-hint {
@@ -213,7 +250,6 @@
             width: 16px;
             height: 16px;
             stroke: #b0e0ff;
-            stroke-width: 1.8;
         }
 
         .reset-btn {
@@ -265,7 +301,7 @@
             -ms-touch-action: none;
             border: 2px solid #2a3a44;
             border-radius: 12px;
-            box-shadow: 0 14px 28px rgba(0,0,0,0.8);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.8);
             background: #000;
             max-width: 100%;
             max-height: 100%;
@@ -275,7 +311,8 @@
             transition: border 0.2s;
         }
 
-        #canvas:active, #canvas:focus {
+        #canvas:active,
+        #canvas:focus {
             border-color: #4fa3c9;
         }
 
@@ -284,52 +321,60 @@
             width: 100%;
             height: 100%;
         }
+
         :-webkit-full-screen #canvas {
             width: 100%;
             height: 100%;
             object-fit: contain;
         }
 
-        /* mobile adaptation */
-        @media (max-width: 900px) {
+        /* responsive */
+        @media (max-width: 1000px) {
             .size-panel {
                 flex-direction: column;
                 padding: 1.5rem;
                 border-radius: 32px;
                 width: 100%;
             }
+
             .dim-group {
                 width: 100%;
             }
+
             .dim-controls {
                 justify-content: space-between;
             }
+
             .dim-controls input[type=range] {
                 width: 140px;
             }
+
             .hint-reset {
                 flex-direction: row;
-                width: 100%;
+                flex-wrap: wrap;
                 justify-content: center;
             }
         }
-        @media (max-width: 500px) {
+
+        @media (max-width: 600px) {
             .dim-controls {
                 flex-direction: column;
                 align-items: stretch;
             }
+
             .dim-controls input[type=range] {
                 width: 100%;
             }
         }
     </style>
 </head>
+
 <body>
     <script src="/assets/js/script.js?v=14"></script>
 
     <div class="gm4html5" id="gm4html5">
 
-        <!-- ==========  CONTROL PANEL – SLIDERS + NUMBER INPUTS + LUCIDE  ========== -->
+        <!-- ==========  CONTROL PANEL – UNITS, SLIDERS, LUCIDE ========== -->
         <div class="size-panel">
             <!-- WIDTH group -->
             <div class="dim-group">
@@ -338,7 +383,7 @@
                     <span>WIDTH</span>
                 </div>
                 <div class="dim-controls">
-                    <input type="number" id="canvas-width" value="1000" min="200" max="2560" step="1" autocomplete="off">
+                    <input type="number" id="canvas-width" value="1000" step="any" autocomplete="off">
                     <input type="range" id="width-slider" min="200" max="2560" value="1000" step="1">
                 </div>
             </div>
@@ -350,16 +395,27 @@
                     <span>HEIGHT</span>
                 </div>
                 <div class="dim-controls">
-                    <input type="number" id="canvas-height" value="1000" min="200" max="1440" step="1" autocomplete="off">
+                    <input type="number" id="canvas-height" value="1000" step="any" autocomplete="off">
                     <input type="range" id="height-slider" min="200" max="1440" value="1000" step="1">
                 </div>
             </div>
 
-            <!-- Hint + Reset button -->
+            <!-- UNIT SELECTOR + HINT + RESET -->
             <div class="hint-reset">
+                <div class="unit-selector">
+                    <i data-lucide="ruler"></i>
+                    <select id="unit-select">
+                        <option value="px" selected>px (pixels)</option>
+                        <option value="in">in (inches)</option>
+                        <option value="cm">cm (centimeters)</option>
+                        <option value="mm">mm (millimeters)</option>
+                        <option value="pt">pt (points)</option>
+                        <option value="pc">pc (picas)</option>
+                    </select>
+                </div>
                 <span class="dim-hint" id="dimension-hint">
                     <i data-lucide="zap"></i>
-                    <span>1000 x 1000</span>
+                    <span>1000 x 1000</span> <span style="color:#94a9b3;">px</span>
                 </span>
                 <button class="reset-btn" id="reset-size" title="restore 1000x1000">
                     <i data-lucide="rotate-ccw"></i>
@@ -379,7 +435,7 @@
     <!-- original game engine -->
     <script type="text/javascript" src="html5game/Coding_BreakOut1.js"></script>
 
-    <!-- ==========  DYNAMIC CANVAS RESIZER – SLIDER + NUMBER SYNC, AUTO‑FIT  ========== -->
+    <!-- ==========  DYNAMIC CANVAS – REAL UNITS, SLIDERS, AUTO‑FIT ========== -->
     <script>
         (function() {
             "use strict";
@@ -391,113 +447,174 @@
             const widthSlider = document.getElementById('width-slider');
             const heightSlider = document.getElementById('height-slider');
             const hintSpan = document.getElementById('dimension-hint');
-            const hintText = hintSpan.querySelector('span');
+            const hintText = hintSpan.querySelector('span'); // first span (pixel value)
+            const unitSelect = document.getElementById('unit-select');
             const resetBtn = document.getElementById('reset-size');
 
-            // ----- sync all controls from canvas dimensions -----
-            function syncAllFromCanvas() {
-                const w = canvas.getAttribute('width') || canvas.width;
-                const h = canvas.getAttribute('height') || canvas.height;
-                widthInput.value = w;
-                heightInput.value = h;
-                widthSlider.value = w;
-                heightSlider.value = h;
-                if (hintText) hintText.innerText = `${w} x ${h}`;
+            // ----- CONVERSION: 1 inch = 96px (standard CSS) -----
+            const PX_PER_IN = 96;
+            const CONVERSION = {
+                'px': 1,
+                'in': PX_PER_IN,
+                'cm': PX_PER_IN / 2.54,
+                'mm': PX_PER_IN / 25.4,
+                'pt': PX_PER_IN / 72,
+                'pc': PX_PER_IN / 6
+            };
+
+            // current unit (default 'px')
+            let currentUnit = 'px';
+
+            // ----- helper: convert pixels to current unit (with nice rounding) -----
+            function pixelsToUnit(px, unit) {
+                if (unit === 'px') return Math.round(px);
+                const value = px / CONVERSION[unit];
+                // show 2 decimals for in/cm/mm, 1 for pt/pc, 0 for px
+                if (unit === 'in' || unit === 'cm' || unit === 'mm') return value.toFixed(2);
+                if (unit === 'pt' || unit === 'pc') return value.toFixed(1);
+                return px; // fallback
             }
 
-            // ----- set canvas size and update all controls -----
-            function setCanvasSize(width, height) {
-                width = Math.min(3840, Math.max(200, parseInt(width, 10) || 1000));
-                height = Math.min(2160, Math.max(200, parseInt(height, 10) || 1000));
+            // ----- helper: convert from unit value to pixels (round to nearest integer) -----
+            function unitToPixels(value, unit) {
+                const num = parseFloat(value);
+                if (isNaN(num)) return 200; // fallback
+                if (unit === 'px') return Math.round(num);
+                return Math.round(num * CONVERSION[unit]);
+            }
 
-                if (canvas.width !== width || canvas.height !== height) {
-                    canvas.width = width;
-                    canvas.height = height;
-                    canvas.setAttribute('width', width);
-                    canvas.setAttribute('height', height);
+            // ----- update all controls from pixel dimensions -----
+            function updateControlsFromPixels(pixelW, pixelH) {
+                // clamp pixel dimensions
+                pixelW = Math.min(3840, Math.max(200, pixelW));
+                pixelH = Math.min(2160, Math.max(200, pixelH));
+
+                // update canvas if needed
+                if (canvas.width !== pixelW || canvas.height !== pixelH) {
+                    canvas.width = pixelW;
+                    canvas.height = pixelH;
+                    canvas.setAttribute('width', pixelW);
+                    canvas.setAttribute('height', pixelH);
                 }
 
-                // update inputs and sliders
-                if (parseInt(widthInput.value, 10) !== width) widthInput.value = width;
-                if (parseInt(heightInput.value, 10) !== height) heightInput.value = height;
-                if (parseInt(widthSlider.value, 10) !== width) widthSlider.value = width;
-                if (parseInt(heightSlider.value, 10) !== height) heightSlider.value = height;
-                if (hintText) hintText.innerText = `${width} x ${height}`;
+                // update sliders (pixels)
+                widthSlider.value = pixelW;
+                heightSlider.value = pixelH;
+
+                // update numeric inputs (converted to current unit)
+                widthInput.value = pixelsToUnit(pixelW, currentUnit);
+                heightInput.value = pixelsToUnit(pixelH, currentUnit);
+
+                // update hint (always show pixels)
+                hintText.innerText = `${pixelW} x ${pixelH}`;
             }
 
-            // ----- debounced update (smooth slider / typing) -----
+            // ----- set canvas size from two pixel values -----
+            function setCanvasSize(pixelW, pixelH) {
+                pixelW = Math.min(3840, Math.max(200, parseInt(pixelW, 10) || 1000));
+                pixelH = Math.min(2160, Math.max(200, parseInt(pixelH, 10) || 1000));
+                updateControlsFromPixels(pixelW, pixelH);
+            }
+
+            // ----- event handlers with debounce (smooth) -----
             let debounceTimer;
-            function debouncedSetCanvasSize(w, h) {
-                clearTimeout(debounceTimer);
-                debounceTimer = setTimeout(() => {
-                    setCanvasSize(w, h);
-                }, 10);
-            }
 
-            // ----- EVENT LISTENERS – bi‑directional sync -----
-
-            // Width: input from number
+            // ----- WIDTH: input from number (current unit) -----
             widthInput.addEventListener('input', function(e) {
-                const w = this.value;
-                const h = heightInput.value;
-                widthSlider.value = w;  // keep slider in sync
-                debouncedSetCanvasSize(w, h);
+                clearTimeout(debounceTimer);
+                const wUnit = this.value;
+                const hUnit = heightInput.value;
+                const pixelW = unitToPixels(wUnit, currentUnit);
+                const pixelH = unitToPixels(hUnit, currentUnit);
+                // keep slider in sync (pixels)
+                widthSlider.value = pixelW;
+                debounceTimer = setTimeout(() => {
+                    setCanvasSize(pixelW, pixelH);
+                }, 20);
             });
-            // Width: change from number (final)
+
             widthInput.addEventListener('change', function(e) {
                 clearTimeout(debounceTimer);
-                const w = this.value;
-                const h = heightInput.value;
-                widthSlider.value = w;
-                setCanvasSize(w, h);
+                const pixelW = unitToPixels(this.value, currentUnit);
+                const pixelH = unitToPixels(heightInput.value, currentUnit);
+                setCanvasSize(pixelW, pixelH);
             });
 
-            // Width: slider input
+            // ----- HEIGHT: input from number (current unit) -----
+            heightInput.addEventListener('input', function(e) {
+                clearTimeout(debounceTimer);
+                const wUnit = widthInput.value;
+                const hUnit = this.value;
+                const pixelW = unitToPixels(wUnit, currentUnit);
+                const pixelH = unitToPixels(hUnit, currentUnit);
+                heightSlider.value = pixelH;
+                debounceTimer = setTimeout(() => {
+                    setCanvasSize(pixelW, pixelH);
+                }, 20);
+            });
+
+            heightInput.addEventListener('change', function(e) {
+                clearTimeout(debounceTimer);
+                const pixelW = unitToPixels(widthInput.value, currentUnit);
+                const pixelH = unitToPixels(this.value, currentUnit);
+                setCanvasSize(pixelW, pixelH);
+            });
+
+            // ----- WIDTH slider (direct pixels) -----
             widthSlider.addEventListener('input', function(e) {
-                const w = this.value;
-                const h = heightSlider.value;
-                widthInput.value = w;
-                debouncedSetCanvasSize(w, h);
+                clearTimeout(debounceTimer);
+                const pixelW = parseInt(this.value, 10);
+                const pixelH = parseInt(heightSlider.value, 10);
+                // convert pixelW to current unit and set input
+                widthInput.value = pixelsToUnit(pixelW, currentUnit);
+                debounceTimer = setTimeout(() => {
+                    setCanvasSize(pixelW, pixelH);
+                }, 10);
             });
             widthSlider.addEventListener('change', function(e) {
                 clearTimeout(debounceTimer);
-                const w = this.value;
-                const h = heightSlider.value;
-                widthInput.value = w;
-                setCanvasSize(w, h);
+                const pixelW = parseInt(this.value, 10);
+                const pixelH = parseInt(heightSlider.value, 10);
+                setCanvasSize(pixelW, pixelH);
             });
 
-            // Height: number input
-            heightInput.addEventListener('input', function(e) {
-                const w = widthInput.value;
-                const h = this.value;
-                heightSlider.value = h;
-                debouncedSetCanvasSize(w, h);
-            });
-            heightInput.addEventListener('change', function(e) {
-                clearTimeout(debounceTimer);
-                const w = widthInput.value;
-                const h = this.value;
-                heightSlider.value = h;
-                setCanvasSize(w, h);
-            });
-
-            // Height: slider
+            // ----- HEIGHT slider -----
             heightSlider.addEventListener('input', function(e) {
-                const w = widthSlider.value;
-                const h = this.value;
-                heightInput.value = h;
-                debouncedSetCanvasSize(w, h);
+                clearTimeout(debounceTimer);
+                const pixelW = parseInt(widthSlider.value, 10);
+                const pixelH = parseInt(this.value, 10);
+                heightInput.value = pixelsToUnit(pixelH, currentUnit);
+                debounceTimer = setTimeout(() => {
+                    setCanvasSize(pixelW, pixelH);
+                }, 10);
             });
             heightSlider.addEventListener('change', function(e) {
                 clearTimeout(debounceTimer);
-                const w = widthSlider.value;
-                const h = this.value;
-                heightInput.value = h;
-                setCanvasSize(w, h);
+                const pixelW = parseInt(widthSlider.value, 10);
+                const pixelH = parseInt(this.value, 10);
+                setCanvasSize(pixelW, pixelH);
             });
 
-            // ----- reset button -----
+            // ----- UNIT CHANGE: recalc inputs from current pixels, update step behavior -----
+            unitSelect.addEventListener('change', function(e) {
+                currentUnit = this.value;
+                // get current pixel dimensions from canvas
+                const pixelW = canvas.width;
+                const pixelH = canvas.height;
+                // update numeric inputs with new unit
+                widthInput.value = pixelsToUnit(pixelW, currentUnit);
+                heightInput.value = pixelsToUnit(pixelH, currentUnit);
+                // adjust step for easier input
+                if (currentUnit === 'px') {
+                    widthInput.step = 1;
+                    heightInput.step = 1;
+                } else {
+                    widthInput.step = 'any';
+                    heightInput.step = 'any';
+                }
+            });
+
+            // ----- RESET to 1000x1000 pixels -----
             resetBtn.addEventListener('click', function() {
                 setCanvasSize(1000, 1000);
             });
@@ -509,37 +626,62 @@
                         const newW = canvas.getAttribute('width');
                         const newH = canvas.getAttribute('height');
                         if (newW && newH) {
-                            widthInput.value = newW;
-                            heightInput.value = newH;
-                            widthSlider.value = newW;
-                            heightSlider.value = newH;
-                            if (hintText) hintText.innerText = `${newW} x ${newH}`;
+                            updateControlsFromPixels(parseInt(newW,10), parseInt(newH,10));
                         }
                     }
                 });
             });
             observer.observe(canvas, { attributes: true });
 
-            // ----- initial sync -----
-            window.addEventListener('load', function() {
-                setTimeout(syncAllFromCanvas, 20);
-            });
-            syncAllFromCanvas();
+            // ----- INITIAL AUTO‑FIT: set canvas size to fit page (pixels) -----
+            function setInitialSize() {
+                // 80% of viewport, but capped between 200 and 2560/1440
+                let vw = window.innerWidth * 0.8;
+                let vh = window.innerHeight * 0.8;
+                let initW = Math.min(2560, Math.max(200, Math.floor(vw)));
+                let initH = Math.min(1440, Math.max(200, Math.floor(vh)));
+                // nice round numbers (optional)
+                initW = Math.round(initW / 10) * 10;
+                initH = Math.round(initH / 10) * 10;
+                setCanvasSize(initW, initH);
+            }
 
-            // ----- prevent non‑numeric in number inputs -----
-            function preventNonNumeric(e) {
-                if (e.key && !/[\d\b]/.test(e.key) && 
-                    !['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Tab','Delete','Backspace','Enter','Home','End'].includes(e.key)) {
+            // call after a tiny delay to let everything load
+            window.addEventListener('load', function() {
+                setTimeout(() => {
+                    setInitialSize();
+                    // also fire lucide icons
+                    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+                }, 30);
+            });
+
+            // also run now (if load already passed)
+            if (document.readyState === 'complete') {
+                setInitialSize();
+            } else {
+                window.addEventListener('load', setInitialSize);
+            }
+
+            // initial sync of unit dropdown, step
+            currentUnit = unitSelect.value;
+            if (currentUnit !== 'px') {
+                widthInput.step = 'any';
+                heightInput.step = 'any';
+            }
+
+            // prevent non-numeric in number inputs (but allow decimal point)
+            function allowNumericAndDot(e) {
+                const key = e.key;
+                if (key === '.' || key === 'Decimal' || key === 'Backspace' || key === 'Delete' || key === 'ArrowLeft' || key === 'ArrowRight' || key === 'Tab' || key === 'Enter' || key === 'Home' || key === 'End') return true;
+                if (!/[\d]/.test(key)) {
                     e.preventDefault();
                 }
             }
-            widthInput.addEventListener('keydown', preventNonNumeric);
-            heightInput.addEventListener('keydown', preventNonNumeric);
+            widthInput.addEventListener('keydown', allowNumericAndDot);
+            heightInput.addEventListener('keydown', allowNumericAndDot);
 
-            // ----- Lucide icons -----
-            if (typeof lucide !== 'undefined' && lucide.createIcons) {
-                lucide.createIcons();
-            }
+            // Lucide icons (also called on load)
+            if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
         })();
     </script>
 
@@ -555,4 +697,5 @@
         data-cf-beacon='{"version":"2024.11.0","token":"0e9b0b0f62fc491faca192e141c6b8c1","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}'
         crossorigin="anonymous"></script>
 </body>
+
 </html>
