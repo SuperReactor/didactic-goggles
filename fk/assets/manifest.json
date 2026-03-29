@@ -1,7 +1,6 @@
 {
   "short_name": "Funky Karts",
   "name": "Funky Karts",
-  "start_url": "/demo.html",
   "display": "fullscreen",
   "orientation": "landscape",
   "background_color": "#100009",
