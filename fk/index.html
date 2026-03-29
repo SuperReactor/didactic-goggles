@@ -1,59 +1,73 @@
-<!doctypehtml>
-<html>
-    <head>
-        <meta charset=utf-8>
-        <meta name="mobile-web-app-capable" content="yes">
-        <link href=assets/icon_48.png rel=apple-touch-icon sizes=48x48>
-        <link href=assets/icon_72.png rel=apple-touch-icon sizes=72x72>
-        <link href=assets/icon_128.png rel=apple-touch-icon sizes=128x128>
-        <link href=assets/icon_144.png rel=apple-touch-icon sizes=144x144>
-        <link href=assets/icon_152.png rel=apple-touch-icon sizes=152x152>
-        <link href=assets/icon_192.png rel=apple-touch-icon sizes=192x192>
-        <link href=assets/icon_256.png rel=apple-touch-icon sizes=256x256>
-        <link href=assets/icon_512.png rel=apple-touch-icon sizes=512x512>
-        <meta content="app-id=1083123814" name=apple-itunes-app>
-        <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name=viewport>
-        <link href=https://www.funkykarts.rocks/demo.html rel=canonical>
-        <link href=favicon.ico rel="shortcut icon">
-        <link href=assets/manifest.json rel=manifest>
-        <title>Funky Karts Demo</title>
-        <style>
-            body,html {
-                height: 100%;
-                margin: 0
-            }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!-- Mobile / PWA -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-            body {
-                background-color: #100009;
-                color: #fcfad3;
-                font-family: Georgia,cursive;
-                font-size: 2em;
-                display: flex;
-                display: -webkit-flex;
-                -webkit-flex-direction: column;
-                flex-direction: column;
-                -webkit-justify-content: center;
-                justify-content: center;
-                -webkit-align-items: center;
-                align-items: center
-            }
+    <!-- Icons -->
+    <link rel="apple-touch-icon" sizes="48x48" href="assets/icon_48.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/icon_72.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="assets/icon_128.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/icon_144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/icon_152.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="assets/icon_192.png">
+    <link rel="apple-touch-icon" sizes="256x256" href="assets/icon_256.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="assets/icon_512.png">
 
-            canvas#display {
-                display: block;
-                outline: 0;
-                height: 100%;
-                max-height: 75vw;
-                width: 100%;
-                max-width: 180vh
-            }
+    <!-- PWA Manifest + Favicon -->
+    <link rel="manifest" href="assets/manifest.json">
+    <link rel="icon" href="favicon.ico">
 
-            p {
-                padding: 2em
-            }
-        </style>
-    </head>
-    <body>
-        <canvas id=display oncontextmenu=event.preventDefault()></canvas>
-        <script async src=demo.js></script>
-    </body>
+    <!-- iOS App Banner -->
+    <meta name="apple-itunes-app" content="app-id=1083123814">
+
+    <title>Funky Karts Demo</title>
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            background-color: #100009;
+            color: #fcfad3;
+            font-family: Georgia, cursive;
+            font-size: 2em;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        canvas#display {
+            display: block;
+            outline: none;
+
+            width: 100%;
+            height: 100%;
+
+            max-width: 180vh;
+            max-height: 75vw;
+        }
+
+        p {
+            padding: 2em;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="display" oncontextmenu="event.preventDefault()">
+        Your browser does not support HTML5 canvas.
+    </canvas>
+
+    <!-- Use defer so JS runs after DOM loads -->
+    <script src="demo.js" defer></script>
+</body>
 </html>
